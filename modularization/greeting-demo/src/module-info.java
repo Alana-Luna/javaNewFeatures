@@ -1,0 +1,4 @@
+module greetingDemoModule {
+	
+	requires greetingModule;
+}
