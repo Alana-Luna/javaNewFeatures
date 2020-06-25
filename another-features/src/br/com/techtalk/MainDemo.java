@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class StreamDemo {
+public class MainDemo {
 
 	public static void main(String[] args) {
 
@@ -32,7 +32,7 @@ public class StreamDemo {
 		testVarWithLambda();
 
 		// Java 12
-		testTeeingCollector();
+//		testTeeingCollector();
 
 	}
 
@@ -53,13 +53,7 @@ public class StreamDemo {
 
 	public static void executeIterate() {
 
-		Stream.iterate(0, i -> i < 5, i -> i + 1)
-				.forEach(System.out::println);
-
-		// similar
-		for (int i = 0; i < 5; ++i) {
-			System.out.println(i);
-		}
+		IntStream.iterate(3, x -> x < 10, x -> x+ 3).forEach(System.out::println);
 
 	}
 
@@ -207,31 +201,31 @@ public class StreamDemo {
 				.forEach(System.out::println);
 	}
 
-	private static void testTeeingCollector() {
-		var result = Stream.of(
-
-				// classe Guest(String name, boolean participating, Integer participantsNumber)
-				new Guest("Giovanna", true, 3),
-				new Guest("David", false, 2),
-				new Guest("Aurora", true, 6))
-
-				.collect(Collectors.teeing(
-
-						// primeiro colecionador, selecionamos apenas quem confirmou a participação
-						Collectors.filtering(Guest::isParticipating,
-
-								// queremos coletar apenas o primeiro nome em uma lista
-								Collectors.mapping(o -> o.name, Collectors.toList())),
-
-						// segundo colecionador, queremos o número total de participantes
-						Collectors.summingInt(Guest::getParticipantsNumber),
-
-						// mesclamos os coletores em um novo objeto
-						EventParticipation::new));
-
-		// Participação no evento {convidados = [Giovanna, Aurora], total de
-		// participantes = 11 }
-		System.out.println(result);
-	}
+//	private static void testTeeingCollector() {
+//		var result = Stream.of(
+//
+//				// classe Guest(String name, boolean participating, Integer participantsNumber)
+//				new Guest("Giovanna", true, 3),
+//				new Guest("David", false, 2),
+//				new Guest("Aurora", true, 6))
+//
+//				.collect(Collectors.teeing(
+//
+//						// primeiro colecionador, selecionamos apenas quem confirmou a participação
+//						Collectors.filtering(Guest::isParticipating,
+//
+//								// queremos coletar apenas o primeiro nome em uma lista
+//								Collectors.mapping(o -> o.name, Collectors.toList())),
+//
+//						// segundo colecionador, queremos o número total de participantes
+//						Collectors.summingInt(Guest::getParticipantsNumber),
+//
+//						// mesclamos os coletores em um novo objeto
+//						EventParticipation::new));
+//
+//		// Participação no evento {convidados = [Giovanna, Aurora], total de
+//		// participantes = 11 }
+//		System.out.println(result);
+//	}
 
 }
